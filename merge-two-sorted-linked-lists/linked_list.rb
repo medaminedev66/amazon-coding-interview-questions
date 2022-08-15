@@ -1,4 +1,4 @@
-require_relative 'node.rb'
+require_relative 'node'
 
 # class LinkedList
 #   def initialize
@@ -79,17 +79,16 @@ class LinkedList
     node = Node.new(number)
     if !@head && !@tail
       @head = node
-      @tail = node
     else
       @tail.next = node
-      @tail = node
     end
+    @tail = node
   end
 
-  def add_at idx, number
-    return if idx > 0 && idx > @size
+  def add_at(idx, number)
+    return if idx.positive? && idx > @size
 
-    @head = Node.new number if idx == 0
+    @head = Node.new number if idx.zero?
     node = Node.new number
     prev = Node.new
     curr = @head
@@ -105,7 +104,7 @@ class LinkedList
     @size += 1
   end
 
-  def remove index
+  def remove(index)
     current = @head
     prev = Node.new
     count = 0
@@ -115,26 +114,26 @@ class LinkedList
       count += 1
     end
     prev.next = current.next
-    size -= 1
+    @size -= 1
   end
 
-  def get index
+  def get(index)
     node = @head
     count = 0
-    while (node)
+    while node
       return node if count == index
 
       count += 1
       node = node.next
     end
-    return nil
+    nil
   end
 
   def print
     node = @head
     puts node
     node = node.next
-    while (node)
+    while node
       puts node
       node = node.next
     end

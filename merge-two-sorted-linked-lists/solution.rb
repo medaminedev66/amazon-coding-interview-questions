@@ -1,15 +1,16 @@
-require_relative 'linked_list.rb'
+require_relative 'linked_list'
 
-def merge_two_sorted_lists first, second
-  if !first.head
-    return second
-  elsif !second.head
-    return first
-  end
-
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/MethodLength
+def merge_two_sorted_lists(first, second)
   list = LinkedList.new
 
-  if (first.head.value < second.head.value)
+  return second unless first.head
+
+  return first unless second.head
+
+  if first.head.value < second.head.value
     list.head = first.head
     first.head = first.head.next
   else
@@ -33,25 +34,24 @@ def merge_two_sorted_lists first, second
     list.tail = temp
   end
 
-  if first.head
-    list.tail.next = first.head
-  else
-    list.tail.next = second.tail
-  end
+  list.tail.next = (first.head || second.tail)
 
-  return list
+  list
 end
 
-list_1 = LinkedList.new
-list_1.add 4
-list_1.add 8
-list_1.add 15
-list_1.add 19
+list1 = LinkedList.new
+list1.add 4
+list1.add 8
+list1.add 15
+list1.add 19
 
-list_2 = LinkedList.new
-list_2.add 7
-list_2.add 9
-list_2.add 16
-list_2.add 18
+list2 = LinkedList.new
+list2.add 7
+list2.add 9
+list2.add 16
+list2.add 18
 
 merge_two_sorted_lists(list_1, list_2).print
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/MethodLength
